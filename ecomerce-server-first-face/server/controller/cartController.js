@@ -24,7 +24,7 @@ const addToCart = async (req, res, next) => {
     if (product.stock < quantity) {
       throw errorHandler(
         400,
-        `Insufficient stock for product: ${product.productname}`
+        `Insufficient stock for product: ${product.title}`
       );
     }
 
@@ -67,31 +67,10 @@ const getCartByUser = async (req, res, next) => {
     }
     const cart = await Cart.findOne({ user: userId }).populate("items.product");
 
-    const cartWithSellPrice = {
-      ...cart?.toObject(),
-      items: cart?.items?.map((item) => {
-        const { product } = item;
-        const { mrpprice, discount } = product;
-
-        // Calculate sellPrice based on mrpprice and discount
-        const sellPrice = Math.ceil(mrpprice - (mrpprice * discount) / 100);
-
-        const updatedProduct = {
-          ...product?.toObject(),
-          sellPrice, // Include sellPrice as a property of the product
-        };
-        // Return updated item object with sellPrice
-        return {
-          ...item?.toObject(),
-          product: updatedProduct,
-        };
-      }),
-    };
-
     return res.status(201).json({
       success: true,
       message: "Cart Details!",
-      data: cartWithSellPrice || { items: [] },
+      data: cart,
     });
   } catch (error) {
     return next(error);
@@ -118,34 +97,10 @@ const deleteProductfromCart = async (req, res, next) => {
     }
     cart.items.splice(itemIndex, 1);
 
-    // await cart.save();
-    const cartWithSellPrice = {
-      ...cart?.toObject(),
-      items: cart?.items?.map((item) => {
-        const { product } = item;
-        const { mrpprice, discount } = product;
-
-        // Calculate sellPrice based on mrpprice and discount
-        const sellPrice = Math.ceil(mrpprice - (mrpprice * discount) / 100);
-
-        const updatedProduct = {
-          ...product?.toObject(),
-          sellPrice, // Include sellPrice as a property of the product
-        };
-        // Return updated item object with sellPrice
-        return {
-          ...item?.toObject(),
-          product: updatedProduct,
-        };
-      }),
-    };
-
-
 
     return res.status(201).json({
       success: true,
       message: "Item Removed Successfully",
-      data: cartWithSellPrice || { items: [] },
     });
   } catch (error) {
     next(error);
@@ -185,31 +140,9 @@ const reduceQuantityController = async (req, res, next) => {
 
     await cart.save();
 
-    const cartWithSellPrice = {
-      ...cart?.toObject(),
-      items: cart?.items?.map((item) => {
-        const { product } = item;
-        const { mrpprice, discount } = product;
-
-        // Calculate sellPrice based on mrpprice and discount
-        const sellPrice = Math.ceil(mrpprice - (mrpprice * discount) / 100);
-
-        const updatedProduct = {
-          ...product?.toObject(),
-          sellPrice, // Include sellPrice as a property of the product
-        };
-        // Return updated item object with sellPrice
-        return {
-          ...item?.toObject(),
-          product: updatedProduct,
-        };
-      }),
-    };
-
     return res.status(201).json({
       success: true,
       message: "Cart Updated Successfully",
-      data: cartWithSellPrice || { items: [] },
     });
   } catch (error) {
     next(error);

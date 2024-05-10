@@ -33,7 +33,7 @@ const signUp = async (req, res, next) => {
 
 const signin = async (req, res, next) => {
   try {
-    const { mobile, password, email } = req.body;
+    const { password, email } = req.body;
     if (!email) {
       return next(errorHandler(404, `User name is required!`));
     }

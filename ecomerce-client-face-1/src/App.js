@@ -15,7 +15,6 @@ const Shiping = lazy(() => import("./pages/shipingPage/Shiping.js"));
 const AdminLogin = lazy(() => import("./Admin/pages/login/Login.js"));
 const Signup = lazy(() => import("./pages/signup/Signup.js"));
 const Login = lazy(() => import("./pages/login/Login.js"));
-const Customer = lazy(() => import("./pages/Customer.js"));
 const Orders = lazy(() => import("./pages/orders/Orders.js"));
 // const ShopingCart = lazy(() => import("./pages/cart/ShopingCart.js"));
 const Account = lazy(() => import("./pages/account/Account.js"));
@@ -68,14 +67,6 @@ const App = () => {
           element={
             <Suspense fallback={<div>Loading...</div>}>
               <Signup />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/customer"
-          element={
-            <Suspense fallback={<div>Loading...</div>}>
-              <Customer />
             </Suspense>
           }
         />

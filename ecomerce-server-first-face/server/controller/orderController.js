@@ -6,8 +6,7 @@ const Product = require("../models/product.model");
 const mongoose = require("mongoose");
 // Create Order
 const CreateOrderController = async (req, res, next) => {
-  const session = await mongoose.startSession();
-  session.startTransaction();
+ 
   try {
     const { products, totalAmount, status, address, name, mobile } = req.body;
     const { id: user } = req.user;
@@ -27,7 +26,7 @@ const CreateOrderController = async (req, res, next) => {
     for (const productItem of products) {
       const { product: productId, quantity } = productItem;
       // Find the product and check stock
-      const product = await Product.findById(productId).session(session);
+      const product = await Product.findById(productId)
       if (!product) {
         throw errorHandler(404, `Product not found: ${productId}`);
       }
@@ -44,17 +43,13 @@ const CreateOrderController = async (req, res, next) => {
     }
 
     await newOrder.save({ session });
-    await Cart.deleteMany({ user }).session(session);
-
-    await session.commitTransaction();
-    session.endSession();
+    await Cart.deleteMany({ user })
 
     return res
       .status(201)
       .json({ success: true, message: "Order placed successfully!" });
   } catch (error) {
-    await session.abortTransaction();
-    session.endSession();
+   
     next(error);
   }
 };

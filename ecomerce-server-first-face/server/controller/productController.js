@@ -53,70 +53,10 @@ const CreateproductController = async (req, res, next) => {
   }
 };
 
-//Admin Can Update Product
-// Code With Images Update
-// const updateProductController = async (req, res, next) => {
-//   try {
-//     const { productid } = req.params;
-
-//     const product = await Product.findById(productid);
-
-//     if (!product) {
-//       return next(
-//         errorHandler(404, `Product not found with associated ID ${productid}`)
-//       );
-//     }
-
-//     // Delete Existing Images
-//     const BUCKET = process.env.BUCKET;
-//     for (let i = 0; i < product.productImages.length; i++) {
-//       const filename = product.productImages[i].split("/").pop();
-//       const deleteParams = {
-//         Bucket: `${BUCKET}`,
-//         Key: `ProductImages/${filename}`,
-//       };
-//       try {
-//         await s3Client.send(new DeleteObjectCommand(deleteParams));
-//         console.log("Successfully deleted the image from S3.");
-//       } catch (error) {
-//         console.error("Error deleting the image from S3:", error);
-//         next(error);
-//       }
-//     }
-
-//     uploadProductImage.array("productImage")(req, res, async function (err) {
-//       if (err) {
-//         return next(err);
-//       }
-//       let paths = req.files.map((file) => file.location);
-//       const { productname, price, discount, stock } = req.body;
-
-//       if (!productname || !price || !discount || !stock) {
-//         next(errorHandler(401, "All Fields are required!"));
-//       }
-
-//       // Update the product with new data
-//       product.productname = productname;
-//       product.price = price;
-//       product.discount = discount;
-//       product.stock = stock;
-//       product.productImages = paths;
-//       const updatedProduct = await product.save();
-
-//       return res.status(201).json({
-//         success: true,
-//         message: "Product Updated successfully!",
-//         updatedProduct,
-//       });
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 const updateProductController = async (req, res, next) => {
   try {
     const { productid } = req.params;
-    const { productname, mrpprice, discount, stock, istreading, description } =
+    const { title, price, discount, stock, description } =
       req.body;
     const product = await Product.findById(productid);
 
@@ -126,17 +66,15 @@ const updateProductController = async (req, res, next) => {
       );
     }
 
-    if (!productname || !mrpprice || !discount || !stock) {
+    if (!title || !price || !discount || !stock) {
       next(errorHandler(401, "All Fields are required!"));
     }
 
     // Update the product with new data
-    product.productname = productname;
-    product.mrpprice = mrpprice;
-    product.discount = discount;
+    product.title = title;
+    product.price = price;
     product.stock = stock;
     product.description = description;
-    product.istreading = istreading;
     const updatedProduct = await product.save();
 
     return res.status(201).json({
@@ -162,22 +100,6 @@ const deleteProductController = async (req, res, next) => {
       );
     }
 
-    const BUCKET = process.env.BUCKET;
-
-    for (let i = 0; i < product.productImages.length; i++) {
-      const filename = product.productImages[i].split("/").pop();
-      const deleteParams = {
-        Bucket: `${BUCKET}`,
-        Key: `ProductImages/${filename}`,
-      };
-      try {
-        await s3Client.send(new DeleteObjectCommand(deleteParams));
-        console.log("Successfully deleted the image from S3.");
-      } catch (error) {
-        console.error("Error deleting the image from S3:", error);
-        next(error);
-      }
-    }
     const isdeleted = await Product.findByIdAndDelete(productid);
 
     if (!isdeleted) {
@@ -209,31 +131,18 @@ const GetAllProductController = async (req, res, next) => {
 
     if (productNameQuery) {
       baseQuery = baseQuery.find({
-        productname: { $regex: productNameQuery, $options: "i" }, // Case-insensitive search
+        title: { $regex: productNameQuery, $options: "i" }, // Case-insensitive search
       });
     }
     const products = await baseQuery;
-    // const products = await Product.find().skip(startIndex).limit(limit);
+   
 
-    // const products = await Product.find();
-
-    const productsWithSellPrice = products.map((product) => {
-      const sellPrice = Math.ceil(
-        product.mrpprice - (product.mrpprice * product.discount) / 100
-      );
-      return { ...product.toObject(), sellPrice };
-    });
-    // return res.status(200).json({
-    //   success: true,
-    //   message: "Record fetched Sucessfully!",
-    //   products,
-    // });
     customSender(
       res,
       200,
       true,
       "Record fetched Sucessfully!",
-      productsWithSellPrice
+      products
     );
   } catch (error) {
     next(error);
@@ -255,11 +164,7 @@ const getSingleProductController = async (req, res, next) => {
       );
     }
 
-    const sellPrice = Math.ceil(
-      product.mrpprice - (product.mrpprice * product.discount) / 100
-    );
-
-    product = { ...product.toObject(), sellPrice };
+  
     return res.status(200).json({
       success: true,
       message: "Product fetched Sucessfully!",

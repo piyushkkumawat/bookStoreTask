@@ -27,7 +27,7 @@ app.use("/api/order", orderRoutes);
 
 app.use(globalErrorHandler);
 
-let PORT = 5001;
+let PORT = 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
 });

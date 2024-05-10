@@ -1,0 +1,148 @@
+:root {
+  /* Colors */
+  --white: #fff;
+  --gray-100: #f1f5f9;
+  --gray-200: #f4f6f8;
+  --gray-300: #dfe3e8;
+  --gray-400: #c4cdd5;
+  --gray-500: #919eab;
+  --gray-600: #637381;
+  --gray-700: #454f5b;
+  --gray-800: #212b36;
+  --gray-900: #161c24;
+  --black: #000;
+  --red: #dc3545;
+  --orange: #fd7e14;
+  --yellow: #f59e0b;
+  --green: #198754;
+  --teal: #20c997;
+  --green-light: #21ea6e;
+  --cyan: #0ea5e9;
+  --primary: #624bff;
+  --secondary: var(--gray-600);
+  --success: var(--green);
+  --success-light: var(--green-light);
+  --info: var(--cyan);
+  --warning: var(--yellow);
+  --danger: var(--red);
+  --light: var(--gray-100);
+  --dark: var(--gray-800);
+
+  /* Light colors */
+  --light-primary2: #d0c9ff;
+  --lighter-primary: #f9f8ff;
+  --light-primary: #e0dcfe;
+  --light-secondary: #e9ecef;
+  --light-success: #eaf6ec;
+  --light-danger: #fbebec;
+  --light-warning: #fff3cd;
+  --light-info: #e7fafe;
+  --light-dark: #d1cfd8;
+
+  /* Dark colors */
+  --dark-primary: #593cc1;
+  --dark-secondary: #5c596d;
+  --dark-success: #139a74;
+  --dark-danger: #ae302e;
+  --dark-warning: #c28135;
+  --dark-info: #51a0c2;
+
+  /* Theme colors */
+  --primary: #624bff;
+  --secondary: #637381;
+  --success: #198754;
+  --info: #0ea5e9;
+  --warning: #f59e0b;
+  --danger: #dc3545;
+  --light: #f1f5f9;
+  --dark: #212b36;
+  --white: #fff;
+  --light-primary: #e0dcfe;
+  --light-danger: #fbebec;
+  --light-info: #e7fafe;
+  --light-warning: #fff3cd;
+  --light-secondary: #e9ecef;
+  --light-success: #eaf6ec;
+  --light-dark: #d1cfd8;
+  --dark-primary: #593cc1;
+  --dark-warning: #c28135;
+  --dark-info: #51a0c2;
+  --dark-danger: #ae302e;
+  --dark-success: #139a74;
+  --dark-secondary: #5c596d;
+
+  /* Body */
+  --body-color: #637381;
+
+  /* Typography */
+  --font-family-sans-serif: "Inter", sans-serif;
+  --font-family-base: var(--font-family-sans-serif);
+  --font-family-heading: var(--font-family-sans-serif);
+  --font-size-base: 0.9375rem; /* Assumes the browser default, typically 15px */
+  --font-size-lg: calc(var(--font-size-base) * 1.25);
+  --font-size-sm: calc(var(--font-size-base) * 0.875);
+  --font-weight-lighter: lighter;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semi-bold: 500;
+  --font-weight-bold: 700;
+  --font-weight-bolder: bolder;
+  --font-weight-base: var(--font-weight-normal);
+  --line-height-base: 1.5;
+  --link-hover-decoration: none;
+
+  /* Heading Color */
+  --h1-font-size: 2.25rem;
+  --h2-font-size: 1.875rem;
+  --h3-font-size: 1.5rem;
+  --h4-font-size: 1.125rem;
+  --h5-font-size: 0.938rem;
+  --h6-font-size: 0.75rem;
+
+  /* Headings color */
+  --headings-color: #212b36;
+
+  /* Line height */
+  --line-height-base: 1.6;
+  --line-height-1: 1;
+  --line-height-2: 2;
+  --line-height-sm: 1.2;
+  --line-height-md: 1.6;
+  --line-height-lg: 1.8;
+
+  /* Avatar sizes */
+  --avatar-size-xs: 1.5rem;
+  --avatar-size-sm: 2rem;
+  --avatar-size-md: 2.5rem;
+  --avatar-size-lg: 3.5rem;
+  --avatar-size-xl: 5rem;
+  --avatar-size-xxl: 7.5rem;
+
+  /* Icon sizes */
+  --icon-size-xxs: 0.875rem;
+  --icon-size-xs: 1rem;
+  --icon-size-sm: 1.5rem;
+  --icon-size-md: 2.5rem;
+  --icon-size-lg: 3rem;
+  --icon-size-xl: 3.5rem;
+  --icon-size-xxl: 4rem;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  /* overflow-y: hidden; */
+}
+
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+* {
+  /* border: 1px solid red; */
+}
